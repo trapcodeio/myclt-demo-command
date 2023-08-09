@@ -11,52 +11,50 @@ import {
 } from "myclt/functions/loggers";
 
 export default defineCommands({
-  update: {
-    async default({ args, store, self, exec }) {
-      // check if installed
-      if (!store.has("installed")) {
-        error(`Market command not installed on this machine yet.`);
-        return infoAndExit(`run "clt market/update" to install it.`);
-      }
+  async update({ args, store, self, exec }) {
+    // check if installed
+    if (!store.has("installed")) {
+      error(`Market command not installed on this machine yet.`);
+      return infoAndExit(`run "clt market/update" to install it.`);
+    }
 
-      // Actions we allow
-      const actions = ["all", "client", "server"];
+    // Actions we allow
+    const actions = ["all", "client", "server"];
 
-      // if action is not provided as argument then ask for it.
-      const action =
-        args[0] ?? (await Q.selectOne("Select which repo to update:", actions));
+    // if action is not provided as argument then ask for it.
+    const action =
+      args[0] ?? (await Q.selectOne("Select which repo to update:", actions));
 
-      // validate action, just incase it came from the argument
-      if (!actions.includes(action))
-        return errorAndExit(
-          `Action must either: [${actions.join(", ")}], "${action}" received!`
-        );
+    // validate action, just incase it came from the argument
+    if (!actions.includes(action))
+      return errorAndExit(
+        `Action must either: [${actions.join(", ")}], "${action}" received!`
+      );
 
-      if (action === "client") {
-        // run client related commands
-        const clientFolder = store.get("clientFolder");
-        info(`Updating Client Folder => ${clientFolder}...`);
+    if (action === "client") {
+      // run client related commands
+      const clientFolder = store.get("clientFolder");
+      info(`Updating Client Folder => ${clientFolder}...`);
 
-        // run the command
-        exec("git pull origin mango && yarn && yarn run build-dev", {
-          cwd: clientFolder,
-        });
-      } else if (action === "server") {
-        // run client related commands
-        const serverFolder = store.get("serverFolder");
-        info(`Updating Server Folder => ${serverFolder}...`);
+      // run the command
+      exec("git pull origin mango && yarn && yarn run build-dev", {
+        cwd: clientFolder,
+      });
+    } else if (action === "server") {
+      // run client related commands
+      const serverFolder = store.get("serverFolder");
+      info(`Updating Server Folder => ${serverFolder}...`);
 
-        // run the command
-        exec(
-          "git pull origin main && npx xjs dbc:migrate && yarn && yarn run build && pm2 restart all",
-          { cwd: serverFolder }
-        );
-      } else if (action === "all") {
-        // run both by calling self
-        self("update", ["client"]);
-        self("update", ["server"]);
-      }
-    },
+      // run the command
+      exec(
+        "git pull origin main && npx xjs dbc:migrate && yarn && yarn run build && pm2 restart all",
+        { cwd: serverFolder }
+      );
+    } else if (action === "all") {
+      // run both by calling self
+      self("update", ["client"]);
+      self("update", ["server"]);
+    }
   },
 
   /**
