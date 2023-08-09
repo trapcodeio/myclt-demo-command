@@ -8,7 +8,7 @@ npm install -g myclt
 yarn global add myclt
 ```
 
-Link the remember command to myclt, either by cloning the repo locally or link remotely:
+Link the command to myclt, either by cloning the repo locally or link remotely:
 
 ### Locally
 
