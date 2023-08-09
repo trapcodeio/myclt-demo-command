@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "myclt": "^0.1.11",
+    "semantic-inquirer": "^0.1.1"
+  }
+}

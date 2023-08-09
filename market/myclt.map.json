@@ -1,0 +1,18 @@
+{
+    "namespace": "market",
+    "file": "./index.ts",
+    "commands": {
+        "update": {
+            "desc": "Update a repo",
+            "args": [
+                "repo"
+            ]
+        },
+        "install": {
+            "desc": "Install this command",
+            "args": [
+                "overwrite"
+            ]
+        }
+    }
+}
