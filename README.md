@@ -12,6 +12,7 @@ Link the remember command to myclt, either by cloning the repo locally or link r
 
 ### Locally
 
+- Clone the repo locally.
 - `cd` to the directory where you want to clone the repo.
 - Run `clt /link market` to link the command to myclt.
 
